@@ -16,7 +16,8 @@ mongoose
     console.log(" MongoDB connection error", err);
   });
 
-const CustomerRoutes = require("./routes/users")
+const CustomerRoutes = require("./routes/users");
+const ProductRoutes = require("./routes/products");
 
 
 //! MORGAN TO LOG INFORMATION ABOUT REQUEST
@@ -39,6 +40,7 @@ app.use((req, res, next) => {
 });
 
 app.use("/customer", CustomerRoutes);
+app.use("/product", ProductRoutes);
 
 //! MIDDLEWARE FOR ERROR HANDLING
 app.use((req, res, next) => {

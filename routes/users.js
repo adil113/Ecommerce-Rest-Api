@@ -12,7 +12,6 @@ router.post("/signup", async (req, res, next) => {
     if (!(firstName && lastName && userName && email && password) && status) {
       res.status(400).send({ message: "All input is required" });
     }
-    // check if user already exist
     const userExists = await Customer.findOne({ email: email });
     if (userExists) {
       return res
@@ -54,7 +53,7 @@ router.post("/login", async (req, res, next) => {
 
       res.status(200).send({ message: "Login Success", token: token, customer: customer});
     } else {
-      res.status(400).send("Invalid Credentials");
+      res.status(400).send({message:"Invalid Credentials"});
     }
   } catch (err) {
     console.log(err);
