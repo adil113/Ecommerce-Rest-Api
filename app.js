@@ -40,7 +40,7 @@ app.use((req, res, next) => {
 });
 
 app.use("/customer", CustomerRoutes);
-app.use("/product", ProductRoutes);
+app.use("/products", ProductRoutes);
 
 //! MIDDLEWARE FOR ERROR HANDLING
 app.use((req, res, next) => {
