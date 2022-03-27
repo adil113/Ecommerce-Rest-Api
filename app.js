@@ -4,7 +4,7 @@ const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const morgan = require('morgan');
 
-//! MONGODB CONNECTIONS
+//! Database Connection
 const MONGODB_URI = `mongodb://localhost:27017/nike`;
 mongoose
   .connect(MONGODB_URI)
@@ -20,12 +20,12 @@ const CustomerRoutes = require("./routes/users");
 const ProductRoutes = require("./routes/products");
 
 
-//! MORGAN TO LOG INFORMATION ABOUT REQUEST
+//! Morgan To Log Information About Request
 app.use(morgan("dev"));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-//! MIDDLEWARE FOR CORE ERRORS
+//! Middleware For Core Errors
 app.use((req, res, next) => {
   res.header("Access-Control-Allow-Origin", "*");
   res.header(
@@ -42,7 +42,7 @@ app.use((req, res, next) => {
 app.use("/customer", CustomerRoutes);
 app.use("/products", ProductRoutes);
 
-//! MIDDLEWARE FOR ERROR HANDLING
+//! Middleware For Error Handling
 app.use((req, res, next) => {
   const error = new Error("Not Found");
   error.status = 404;
