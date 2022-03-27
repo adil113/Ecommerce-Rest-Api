@@ -28,5 +28,4 @@ module.exports = (req, res, next) => {
     fileFilter: fileFilter,
   });
 
-  return upload();
 };
