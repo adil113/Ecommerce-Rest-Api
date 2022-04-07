@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const Product = require("../models/product");
 const Category = require("../models/product_category");
+
 exports.add_new_product = async (req, res, next) => {
   try {
     const { productname, productprice, productcategory, productdescription } =
@@ -36,10 +37,31 @@ exports.get_single_product = async (req, res, next) => {
   try {
     const productId = req.params.id;
     const product = await Product.findById(productId);
-
-    if (!product) return res.status(404).send({ message: "Product Not Found" });
-    return res.status(200).json({ product: product });
+    product
+      ? res.status(200).json({ product: product })
+      : res.status(404).send({ message: "Product Not Found" });
   } catch (err) {
     res.status(500).end();
   }
+};
+
+exports.delete_single_product = async (req, res, next) => {
+  try {
+    const productId = req.params.id;
+    const customer = await Product.findByIdAndDelete(productId);
+    customer
+      ? res.status(200).json({ message: "Product Deleted" })
+      : res.status(404).json({ message: "Product not found" });
+  } catch (error) {
+    res.status(500).end();
+  }
+};
+
+exports.get_all_products = async (req, res, next) => {
+  try {
+    const products = await Product.find({});
+    products
+      ? res.status(200).json({ products: products })
+      : res.status(404).json({ message: "Not found" });
+  } catch (error) {}
 };
