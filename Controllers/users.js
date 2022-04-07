@@ -14,7 +14,7 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-// ? Signup for new customer
+// ! Signup for new customer
 exports.signup_new_customer = async (req, res, next) => {
   try {
     const { firstName, lastName, userName, email, password } = req.body;
@@ -67,7 +67,7 @@ exports.signup_new_customer = async (req, res, next) => {
   }
 };
 
-// ? Verify customer email
+// ! Verify customer email
 exports.verify_customer_email = async (req, res, next) => {
   try {
     const verificationToken = req.params.token;
@@ -101,7 +101,7 @@ exports.verify_customer_email = async (req, res, next) => {
   }
 };
 
-// ? Login
+// ! Login
 exports.login_customer = async (req, res, next) => {
   try {
     const { email, password } = req.body;
@@ -127,7 +127,7 @@ exports.login_customer = async (req, res, next) => {
   }
 };
 
-//?  Single customer details
+// ! Single customer details
 exports.get_single_customer = async (req, res, next) => {
   try {
     const id = req.params.id;
@@ -162,13 +162,33 @@ exports.update_single_customer = async (req, res, next) => {
   }
 };
 
-// ? Delete single customer
+// ! Delete single customer
 exports.delete_single_customer = async (req, res, next) => {
-  const id = req.params.id;
-  const customer = await Customer.findByIdAndDelete(id);
-  if (customer) {
-    res.status(200).json({ message: "Customer Deleted" });
-  } else {
-    res.status(404).json({ message: "Customer not found" });
+  try {
+    const id = req.params.id;
+    const customer = await Customer.findByIdAndDelete(id);
+    if (customer) {
+      res.status(200).json({ message: "Customer Deleted" });
+    } else {
+      res.status(404).json({ message: "Customer not found" });
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+// ! Get all customers list
+
+exports.get_all_customers = async (req, res, next) => {
+  try {
+    const customers = await Customer.find({});
+
+    if (!customers) {
+      res.status(404).json({ message: "Not found" });
+    } else {
+      res.status(200).json({ customers: customers });
+    }
+  } catch (error) {
+    console.log(error);
   }
 };

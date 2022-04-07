@@ -9,5 +9,6 @@ router.post("/login", customerController.login_customer);
 router.get("/:id", customerController.get_single_customer);
 router.patch("/:id", customerController.update_single_customer);
 router.delete("/:id", customerController.delete_single_customer);
+router.get("/", customerController.get_all_customers);
 
 module.exports = router;

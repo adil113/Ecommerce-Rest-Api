@@ -16,14 +16,16 @@ mongoose
     console.log(" MongoDB connection error", err);
   });
 
-const CustomerRoutes = require("./routes/users");
-const ProductRoutes = require("./routes/products");
+const customerRoutes = require("./routes/users");
+const productRoutes = require("./routes/products");
+const categoryRoutes = require("./routes/product_category");
 
 
 //! Morgan To Log Information About Request
 app.use(morgan("dev"));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+app.use('/uploads', express.static('uploads'));
 
 //! Middleware For Core Errors
 app.use((req, res, next) => {
@@ -39,8 +41,10 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use("/customer", CustomerRoutes);
-app.use("/products", ProductRoutes);
+app.use("/customer", customerRoutes);
+app.use("/products", productRoutes);
+app.use("/category", categoryRoutes);
+
 
 //! Middleware For Error Handling
 app.use((req, res, next) => {
