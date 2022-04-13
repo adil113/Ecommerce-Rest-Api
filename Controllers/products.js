@@ -16,10 +16,9 @@ exports.add_new_product = async (req, res, next) => {
       productname,
       productprice,
       productcategory,
-      productimage: req.file.path,
+      productimage:  req.file.filename,
       productdescription,
     });
-
     if (product) {
       await Category.findOneAndUpdate(
         { categoryName: req.body.productcategory },
@@ -52,6 +51,7 @@ exports.delete_single_product = async (req, res, next) => {
     customer
       ? res.status(200).json({ message: "Product Deleted" })
       : res.status(404).json({ message: "Product not found" });
+    // Todo Also remove This product Increment form Product Category
   } catch (error) {
     res.status(500).end();
   }
@@ -61,7 +61,7 @@ exports.get_all_products = async (req, res, next) => {
   try {
     const products = await Product.find({});
     products
-      ? res.status(200).json({ products: products })
+      ? res.status(200).json(products)
       : res.status(404).json({ message: "Not found" });
   } catch (error) {}
 };

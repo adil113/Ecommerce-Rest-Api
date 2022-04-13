@@ -7,7 +7,6 @@ const Category = require("../models/product_category");
 const multer = require("multer");
 
 // ! Add new category
-
 router.post("/add", async (req, res, next) => {
   try {
     const { categoryName } = req.body;
@@ -29,6 +28,17 @@ router.post("/add", async (req, res, next) => {
     });
 
     res.status(200).json({ message: "Category created successfully" });
+  } catch (error) {
+    res.status(500).json({ message: "Internal Server Error", error: error });
+  }
+});
+
+router.get("/", async (req, res) => {
+  try {
+    const categories = await Category.find({});
+    categories
+      ? res.status(200).json(categories)
+      : res.status(404).send({ message: "No Categories Found" });
   } catch (error) {
     res.status(500).json({ message: "Internal Server Error", error: error });
   }
