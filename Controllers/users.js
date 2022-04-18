@@ -18,9 +18,6 @@ const transporter = nodemailer.createTransport({
 exports.signup_new_customer = async (req, res, next) => {
   try {
     const { firstName, lastName, userName, email, password } = req.body;
-    if (!(firstName && lastName && userName && email) && status) {
-      res.status(400).json({ message: "All input is required" });
-    }
     const userExists = await Customer.findOne({ email: email });
     if (userExists) {
       return res
@@ -63,7 +60,7 @@ exports.signup_new_customer = async (req, res, next) => {
 
     res.status(201).json(customer);
   } catch (error) {
-    console.log(error);
+    res.status(500).end();
   }
 };
 
@@ -97,7 +94,7 @@ exports.verify_customer_email = async (req, res, next) => {
       });
     }
   } catch (error) {
-    console.log(error);
+    res.status(500).end();
   }
 };
 
@@ -123,7 +120,7 @@ exports.login_customer = async (req, res, next) => {
       res.status(400).json({ message: "Invalid Credentials" });
     }
   } catch (err) {
-    console.log(err);
+    res.status(500).end();
   }
 };
 
@@ -140,7 +137,7 @@ exports.get_single_customer = async (req, res, next) => {
       res.status(404).json({ message: "No User Found" });
     }
   } catch (error) {
-    console.log(error);
+    res.status(500).end();
   }
 };
 
@@ -158,7 +155,7 @@ exports.update_single_customer = async (req, res, next) => {
       res.status(200).json({ Customer: customer });
     }
   } catch (error) {
-    console.log(error);
+    res.status(500).end();
   }
 };
 
@@ -173,7 +170,7 @@ exports.delete_single_customer = async (req, res, next) => {
       res.status(404).json({ message: "Customer not found" });
     }
   } catch (error) {
-    console.log(error);
+    res.status(500).end();
   }
 };
 
@@ -189,6 +186,6 @@ exports.get_all_customers = async (req, res, next) => {
       res.status(200).json({ customers: customers });
     }
   } catch (error) {
-    console.log(error);
+    res.status(500).end();
   }
 };

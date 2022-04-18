@@ -6,6 +6,11 @@ exports.add_new_product = async (req, res, next) => {
   try {
     const { productname, productprice, productcategory, productdescription } =
       req.body;
+    if (
+      !(productname && productprice && productcategory && productdescription)
+    ) {
+      res.status(400).send({ message: "All input is required" });
+    }
 
     const product = await Product.create({
       productname,
@@ -23,7 +28,7 @@ exports.add_new_product = async (req, res, next) => {
       res.status(201).json(product);
     }
   } catch (err) {
-    res.status(500).json({ message: err });
+    res.status(500).end();
   }
 };
 
@@ -45,7 +50,9 @@ exports.get_all_products = async (req, res, next) => {
     products
       ? res.status(200).json(products)
       : res.status(404).json({ message: "Not found" });
-  } catch (error) {}
+  } catch (error) {
+    res.status(500).end();
+  }
 };
 
 
