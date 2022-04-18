@@ -60,7 +60,7 @@ exports.signup_new_customer = async (req, res, next) => {
 
     res.status(201).json(customer);
   } catch (error) {
-    res.status(500).end();
+    res.status(500).json({ message: "Internal Server Error"});
   }
 };
 
@@ -94,7 +94,7 @@ exports.verify_customer_email = async (req, res, next) => {
       });
     }
   } catch (error) {
-    res.status(500).end();
+    res.status(500).json({ message: "Internal Server Error"});
   }
 };
 
@@ -120,7 +120,7 @@ exports.login_customer = async (req, res, next) => {
       res.status(400).json({ message: "Invalid Credentials" });
     }
   } catch (err) {
-    res.status(500).end();
+    res.status(500).json({ message: "Internal Server Error"});
   }
 };
 
@@ -137,7 +137,7 @@ exports.get_single_customer = async (req, res, next) => {
       res.status(404).json({ message: "No User Found" });
     }
   } catch (error) {
-    res.status(500).end();
+    res.status(500).json({ message: "Internal Server Error"});
   }
 };
 
@@ -155,7 +155,7 @@ exports.update_single_customer = async (req, res, next) => {
       res.status(200).json({ Customer: customer });
     }
   } catch (error) {
-    res.status(500).end();
+    res.status(500).json({ message: "Internal Server Error"});
   }
 };
 
@@ -170,7 +170,7 @@ exports.delete_single_customer = async (req, res, next) => {
       res.status(404).json({ message: "Customer not found" });
     }
   } catch (error) {
-    res.status(500).end();
+    res.status(500).json({ message: "Internal Server Error"});
   }
 };
 
@@ -186,6 +186,6 @@ exports.get_all_customers = async (req, res, next) => {
       res.status(200).json({ customers: customers });
     }
   } catch (error) {
-    res.status(500).end();
+    res.status(500).json({ message: "Internal Server Error"});
   }
 };
