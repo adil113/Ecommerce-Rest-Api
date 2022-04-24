@@ -4,7 +4,7 @@ const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const morgan = require('morgan');
 const cors = require('cors');
-//! Database Connection
+
 const MONGODB_URI = `mongodb://localhost:27017/nike`;
 mongoose
   .connect(MONGODB_URI)
@@ -17,10 +17,10 @@ mongoose
   });
 
   const customerRoutes = require("./routes/users");
+  const adminRoutes = require("./routes/admin_user");
   const productRoutes = require("./routes/products");
   const categoryRoutes = require("./routes/product_category");
   
-  //! Morgan To Log Information About Request
   app.use(morgan("dev"));
   app.use(cors({
     origin:'*'
@@ -30,10 +30,10 @@ mongoose
   app.use('/uploads', express.static('uploads'));
 
 app.use("/customer", customerRoutes);
+app.use("/admin", adminRoutes);
 app.use("/products", productRoutes);
 app.use("/category", categoryRoutes);
 
-//! Middleware For Error Handling
 app.use((req, res, next) => {
   const error = new Error("Not Found");
   error.status = 404;

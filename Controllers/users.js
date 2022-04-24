@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+// const mongoose = require("mongoose");
 const Customer = require("../models/user");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
@@ -14,7 +14,6 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-// ! Signup for new customer
 exports.signup_new_customer = async (req, res, next) => {
   try {
     const { firstName, lastName, userName, email, password } = req.body;
@@ -64,7 +63,6 @@ exports.signup_new_customer = async (req, res, next) => {
   }
 };
 
-// ! Verify customer email
 exports.verify_customer_email = async (req, res, next) => {
   try {
     const verificationToken = req.params.token;
@@ -98,7 +96,6 @@ exports.verify_customer_email = async (req, res, next) => {
   }
 };
 
-// ! Login
 exports.login_customer = async (req, res, next) => {
   try {
     const { email, password } = req.body;
@@ -124,7 +121,6 @@ exports.login_customer = async (req, res, next) => {
   }
 };
 
-// ! Single customer details
 exports.get_single_customer = async (req, res, next) => {
   try {
     const id = req.params.id;
@@ -141,7 +137,6 @@ exports.get_single_customer = async (req, res, next) => {
   }
 };
 
-//? Update single customer
 exports.update_single_customer = async (req, res, next) => {
   try {
     const id = req.params.id;
@@ -159,7 +154,6 @@ exports.update_single_customer = async (req, res, next) => {
   }
 };
 
-// ! Delete single customer
 exports.delete_single_customer = async (req, res, next) => {
   try {
     const id = req.params.id;
@@ -173,8 +167,6 @@ exports.delete_single_customer = async (req, res, next) => {
     res.status(500).json({ message: "Internal Server Error"});
   }
 };
-
-// ! Get all customers list
 
 exports.get_all_customers = async (req, res, next) => {
   try {
