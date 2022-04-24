@@ -39,14 +39,33 @@ exports.admin_login = async (req, res, next) => {
 
     if (admin && (await bcrypt.compare(password, admin.password))) {
       const token = jwt.sign({ email: email }, process.env.JWT_KEY, {
-        expiresIn: "5h",
+        expiresIn: "1m",
       });
       // res.status(200).json({token});
       res.status(200).json(token);
     }
-  // else{
-  //   res.status(400).json({ message: "Invalid Credentials" });
-  // }
+    // else{
+    //   res.status(400).json({ message: "Invalid Credentials" });
+    // }
+  } catch (error) {
+    res
+      .status(500)
+      .json({ message: "Internal Server Error", error: error.message });
+  }
+};
+
+exports.token_verify = async (req, res, next) => {
+  try {
+    const token = req.body.token;
+    console.log(token);
+    jwt.verify(token,  process.env.JWT_KEY, (err, result) => {
+      if(err){
+        res.status(400).json({ message: "Invalid Token"})
+      } else{
+        res.status(200).json({token})
+      }
+    })
+
   } catch (error) {
     res
       .status(500)

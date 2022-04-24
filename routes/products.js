@@ -7,7 +7,7 @@ const { verify_access_token } = require("../middleware/jwt_helper");
 
 
 // Add New Product
-router.post("/add", fileMiddleware,verify_access_token, productController.add_new_product);
+router.post("/add", fileMiddleware, productController.add_new_product);
 router.get("/:id", productController.get_single_product);
 router.delete("/:id", productController.delete_single_product);
 // router.put("/:id", productController.update_single_product);
