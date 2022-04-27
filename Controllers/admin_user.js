@@ -56,7 +56,6 @@ exports.admin_login = async (req, res, next) => {
 exports.token_verify = async (req, res, next) => {
   try {
     const token = req.body.token;
-    console.log(token);
     jwt.verify(token,  process.env.JWT_KEY, (err, result) => {
       if(err){
         res.status(400).json({ message: "Invalid Kindly Login"})

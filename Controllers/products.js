@@ -16,7 +16,7 @@ exports.add_new_product = async (req, res, next) => {
       productname,
       productprice,
       productcategory,
-      productimage:  req.file.filename,
+      productimage: req.file.filename,
       productdescription,
     });
     if (product) {
@@ -28,7 +28,7 @@ exports.add_new_product = async (req, res, next) => {
       res.status(201).json(product);
     }
   } catch (err) {
-   res.status(500).json({ message: "Internal Server Error"});
+    res.status(500).json({ message: "Internal Server Error" });
   }
 };
 
@@ -37,10 +37,10 @@ exports.get_single_product = async (req, res, next) => {
     const productId = req.params.id;
     const product = await Product.findById(productId);
     product
-      ? res.status(200).json(product )
+      ? res.status(200).json(product)
       : res.status(404).send({ message: "Product Not Found" });
   } catch (err) {
-   res.status(500).json({ message: "Internal Server Error"});
+    res.status(500).json({ message: "Internal Server Error" });
   }
 };
 
@@ -51,25 +51,44 @@ exports.get_all_products = async (req, res, next) => {
       ? res.status(200).json(products)
       : res.status(404).json({ message: "Not found" });
   } catch (error) {
-   res.status(500).json({ message: "Internal Server Error"});
+    res.status(500).json({ message: "Internal Server Error" });
   }
 };
-
-
-// exports.update_single_product() = async (req, res, next) => {
-  
-// }
 
 exports.delete_single_product = async (req, res, next) => {
   try {
     const productId = req.params.id;
-    const customer = await Product.findByIdAndDelete(productId);
-    customer
-      ? res.status(200).json({ message: "Product Deleted" })
-      : res.status(404).json({ message: "Product not found" });
-    // Todo Also remove This product Increment form Product Category
-  } catch (error) {
-   res.status(500).json({ message: "Internal Server Error"});
+    const product = await Product.findByIdAndDelete(productId);
+    if (product) {
+      await Category.findOneAndUpdate(
+        { categoryName: product.productcategory },
+        { $inc: { numberOfProducts: -1 } },
+        { new: true }
+      );
+
+      res.status(200).json({ message: "Product Deleted" });
+    } 
+    else {
+      res.status(404).json({ message: "Product not found" });
+    }
+
+  } 
+  catch (error) {
+    res.status(500).json({ message: "Internal Server Error" });
   }
 };
 
+exports.update_single_product = async (req, res, next) => {
+  try {
+    let product = await Product.findByIdAndUpdate(req.params.id, req.body, {
+      new: true,
+      runValidators: true,
+      useFindAndModify: false,
+    });
+
+    res.status(200).json({
+      success: true,
+      product,
+    });
+  } catch (error) {}
+};
