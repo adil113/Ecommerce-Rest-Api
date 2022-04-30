@@ -39,7 +39,7 @@ exports.admin_login = async (req, res, next) => {
     const admin = await Admin.findOne({ email });
     if (admin && (await bcrypt.compare(password, admin.password))) {
       const token = jwt.sign({ email: email }, process.env.JWT_KEY, {
-        expiresIn: "1m",
+        expiresIn: "5h",
       });
       res.status(200).json(token);
     }

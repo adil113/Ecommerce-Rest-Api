@@ -1,6 +1,7 @@
 // const mongoose = require("mongoose");
 const Product = require("../models/product");
 const Category = require("../models/product_category");
+const fs = require("fs");
 
 exports.add_new_product = async (req, res, next) => {
   try {
@@ -67,28 +68,24 @@ exports.delete_single_product = async (req, res, next) => {
       );
 
       res.status(200).json({ message: "Product Deleted" });
-    } 
-    else {
+    } else {
       res.status(404).json({ message: "Product not found" });
     }
-
-  } 
-  catch (error) {
+  } catch (error) {
     res.status(500).json({ message: "Internal Server Error" });
   }
 };
 
 exports.update_single_product = async (req, res, next) => {
   try {
-    let product = await Product.findByIdAndUpdate(req.params.id, req.body, {
-      new: true,
-      runValidators: true,
-      useFindAndModify: false,
-    });
+    let id = req.params.id;
+    let newimage = "";
 
-    res.status(200).json({
-      success: true,
-      product,
-    });
-  } catch (error) {}
+    if(req.file){
+
+    }
+
+  } catch (error) {
+    res.status(500).json({ message: "Internal Server Error" });
+  }
 };
