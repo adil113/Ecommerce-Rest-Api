@@ -79,12 +79,18 @@ exports.delete_single_product = async (req, res, next) => {
 exports.update_single_product = async (req, res, next) => {
   try {
     let id = req.params.id;
-    let newimage = "";
+    
+    let updatedProduct = await Product.findByIdAndUpdate(id, {
+      productname: req.body.productname,
+      productprice: req.body.productprice,
+      productcategory: req.body.productcategory,
+      productimage: req.file.filename,
+      productdescription: req.body.productdescription,
+    });
 
-    if(req.file){
-
+    if (updatedProduct) {
+      res.status(200).json({ message: "Product Updated" });
     }
-
   } catch (error) {
     res.status(500).json({ message: "Internal Server Error" });
   }
