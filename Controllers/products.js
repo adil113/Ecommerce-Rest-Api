@@ -79,18 +79,29 @@ exports.delete_single_product = async (req, res, next) => {
 exports.update_single_product = async (req, res, next) => {
   try {
     let id = req.params.id;
-    
-    let updatedProduct = await Product.findByIdAndUpdate(id, {
+    let updatedProduct
+   if(req.file.filename != undefined){
+    updatedProduct = await Product.findByIdAndUpdate(id, {
       productname: req.body.productname,
       productprice: req.body.productprice,
       productcategory: req.body.productcategory,
       productimage: req.file.filename,
       productdescription: req.body.productdescription,
     });
+   }
+   else{
+    updatedProduct = await Product.findByIdAndUpdate(id, {
+      productname: req.body.productname,
+      productprice: req.body.productprice,
+      productcategory: req.body.productcategory,
+      productdescription: req.body.productdescription,
+    });
+   }
+    
 
-    if (updatedProduct) {
-      res.status(200).json({ message: "Product Updated" });
-    }
+   if (updatedProduct) {
+    res.status(200).json({ message: "Product Updated" });
+  }
   } catch (error) {
     res.status(500).json({ message: "Internal Server Error" });
   }
