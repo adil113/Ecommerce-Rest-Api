@@ -29,7 +29,7 @@ exports.add_new_product = async (req, res, next) => {
       res.status(201).json(product);
     }
   } catch (err) {
-    res.status(500).json({ message: "Internal Server Error" });
+    res.status(500).json({ message: "Something went wrong" });
   }
 };
 
@@ -41,7 +41,7 @@ exports.get_single_product = async (req, res, next) => {
       ? res.status(200).json(product)
       : res.status(404).send({ message: "Product Not Found" });
   } catch (err) {
-    res.status(500).json({ message: "Internal Server Error" });
+    res.status(500).json({ message: "Something went wrong" });
   }
 };
 
@@ -52,7 +52,7 @@ exports.get_all_products = async (req, res, next) => {
       ? res.status(200).json(products)
       : res.status(404).json({ message: "Not found" });
   } catch (error) {
-    res.status(500).json({ message: "Internal Server Error" });
+    res.status(500).json({ message: "Something went wrong" });
   }
 };
 
@@ -72,7 +72,7 @@ exports.delete_single_product = async (req, res, next) => {
       res.status(404).json({ message: "Product not found" });
     }
   } catch (error) {
-    res.status(500).json({ message: "Internal Server Error" });
+    res.status(500).json({ message: "Something went wrong" });
   }
 };
 
@@ -103,6 +103,6 @@ exports.update_single_product = async (req, res, next) => {
     res.status(200).json({ message: "Product Updated" });
   }
   } catch (error) {
-    res.status(500).json({ message: "Internal Server Error" });
+    res.status(500).json({ message: "Something went wrong" });
   }
 };

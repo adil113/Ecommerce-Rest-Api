@@ -24,7 +24,7 @@ exports.add_new_admin = async (req, res, next) => {
   } catch (error) {
     res
       .status(500)
-      .json({ message: "Internal Server Error", error: error.message });
+      .json({ message: "Something went wrong", error: error.message });
   }
 };
 
@@ -49,7 +49,7 @@ exports.admin_login = async (req, res, next) => {
   } catch (error) {
     res
       .status(500)
-      .json({ message: "Internal Server Error", error: error.message });
+      .json({ message: "Something went wrong", error: error.message });
   }
 };
 
@@ -67,6 +67,6 @@ exports.token_verify = async (req, res, next) => {
   } catch (error) {
     res
       .status(500)
-      .json({ message: "Internal Server Error", error: error.message });
+      .json({ message: "Something went wrong", error: error.message });
   }
 };
