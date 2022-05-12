@@ -6,11 +6,11 @@ const crypto = require("crypto");
 const nodemailer = require("nodemailer");
 
 const transporter = nodemailer.createTransport({
-  host: "smtp.ethereal.email",
-  port: 587,
+  host: "mail.tpellc-usa.com",
+  port: 465,
   auth: {
-    user: "clement.upton9@ethereal.email",
-    pass: "jUgwWYTbkphkHNNwEh",
+    user: "test@tpellc-usa.com",
+    pass: "RKTS+n%bbM_c",
   },
 });
 
@@ -35,9 +35,9 @@ exports.signup_new_customer = async (req, res, next) => {
       verificationToken: crypto.randomBytes(24).toString("hex"),
     });
 
-    // Send verification email to Customer
+
     let mailOptions = {
-      form: "tayyabsiraj112233@gmail.com",
+      form: "test@tpellc-usa.com",
       to: customer.email,
       subject: "Verify Your Email Address",
       html: `
@@ -49,9 +49,7 @@ exports.signup_new_customer = async (req, res, next) => {
 
     transporter.sendMail(mailOptions, (err, info) => {
       if (err) {
-        return res.status(500).json({
-          msg: "Technical Issue!, Please click on resend for verify your Email.",
-        });
+        console.log(err);
       } else {
         console.log(info, "email send");
       }
