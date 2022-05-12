@@ -77,31 +77,33 @@ exports.delete_single_product = async (req, res, next) => {
 };
 
 exports.update_single_product = async (req, res, next) => {
+  let id = req.params.id;
+  let updatedProduct;
   try {
-    let id = req.params.id;
-    let updatedProduct
-   if(req.file.filename != undefined){
-    updatedProduct = await Product.findByIdAndUpdate(id, {
-      productname: req.body.productname,
-      productprice: req.body.productprice,
-      productcategory: req.body.productcategory,
-      productimage: req.file.filename,
-      productdescription: req.body.productdescription,
-    });
-   }
-   else{
-    updatedProduct = await Product.findByIdAndUpdate(id, {
-      productname: req.body.productname,
-      productprice: req.body.productprice,
-      productcategory: req.body.productcategory,
-      productdescription: req.body.productdescription,
-    });
-   }
-    
+    if (req.file == undefined) {
+      updatedProduct = await Product.findByIdAndUpdate(id, {
+        productname: req.body.productname,
+        productprice: req.body.productprice,
+        productcategory: req.body.productcategory,
+        productdescription: req.body.productdescription,
+      });
+    } else {
+      fs.unlink(`./uploads/${req.body.oldimagepath}`, function (err) {
+        if (err) throw err;
+        console.log("File deleted!");
+      });
+      updatedProduct = await Product.findByIdAndUpdate(id, {
+        productname: req.body.productname,
+        productprice: req.body.productprice,
+        productcategory: req.body.productcategory,
+        productimage: req.file.filename,
+        productdescription: req.body.productdescription,
+      });
+    }
 
-   if (updatedProduct) {
-    res.status(200).json({ message: "Product Updated" });
-  }
+    updatedProduct
+      ? res.status(200).json({ message: "Product Updated" })
+      : res.status(404).send({ message: "Unable to update product" });
   } catch (error) {
     res.status(500).json({ message: "Something went wrong" });
   }
